@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace APILivro.Controllers
 {
-    public class LivroController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class LivroController : ControllerBase
     {
         private readonly ILivroRepository _livroRepository;
         public LivroController(ILivroRepository livroRepository)
@@ -31,27 +33,30 @@ namespace APILivro.Controllers
         {
             await _livroRepository.Adicionar(livro);
 
-            return livro;
+            return CreatedAtAction(nameof(BuscarPorId), new {id = livro.Id}, livro);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Deletar(int id)
         {
-            var livro = _livroRepository.BuscarPorId(id);
+            var livro = await _livroRepository.BuscarPorId(id);
 
             if(livro == null)
-                await _livroRepository.Deletar(livro.Id);
+                return NotFound();
 
-            return null;
+            await _livroRepository.Deletar(livro);
+            return NoContent();
         }
 
         [HttpPut]
         public async Task<IActionResult> Atualizar(int id, [FromBody] Livro livro)
         {
             if (id == livro.Id)
-                await _livroRepository.Atualizar(livro);
+                return BadRequest();
 
-            return null;
+            await _livroRepository.Atualizar(livro);
+
+            return NoContent();
         }
     }
 }

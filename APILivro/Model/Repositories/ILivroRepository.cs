@@ -9,7 +9,7 @@ namespace APILivro.Repositories
     {
         Task Adicionar(Livro livro);
         Task Atualizar(Livro livro);
-        Task Deletar(int id);
+        Task Deletar(Livro livro);
         Task<Livro> BuscarPorId(int id);
         Task<IEnumerable<Livro>> BuscarTodos();
     }

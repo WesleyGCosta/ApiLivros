@@ -1,4 +1,5 @@
-﻿using APILivro.Model;
+﻿using APILivro.Infra.Maps;
+using APILivro.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace APILivro.Infra
@@ -11,5 +12,10 @@ namespace APILivro.Infra
         }
 
         public DbSet<Livro> Livros { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new LivroMap());
+        }
     }
 }

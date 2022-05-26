@@ -26,10 +26,9 @@ namespace APILivro.Infra.Persistencia
             _dataContext.Livros.Update(livro);
             await _dataContext.SaveChangesAsync();
         }
-        public async Task Deletar(int id)
+        public async Task Deletar(Livro livro)
         {
-            var livroDeletar = await _dataContext.Livros.FindAsync(id);
-            _dataContext.Livros.Remove(livroDeletar);
+            _dataContext.Livros.Remove(livro);
             await _dataContext.SaveChangesAsync();
         }
 
