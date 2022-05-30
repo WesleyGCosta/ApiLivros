@@ -51,7 +51,9 @@ namespace APILivro.Controllers
         [HttpPut]
         public async Task<IActionResult> Atualizar(int id, [FromBody] Livro livro)
         {
-            if (id == livro.Id)
+            var existe = await _livroRepository.BuscarPorId(id);
+
+            if (existe.Equals(null) || id != livro.Id)
                 return BadRequest();
 
             await _livroRepository.Atualizar(livro);

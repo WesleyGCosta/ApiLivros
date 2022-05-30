@@ -34,7 +34,7 @@ namespace APILivro.Infra.Persistencia
 
         public async Task<Livro> BuscarPorId(int id)
         {
-            return await _dataContext.Livros.FindAsync(id);
+            return await _dataContext.Livros.AsNoTracking().FirstOrDefaultAsync(x => x.Id.Equals(id));
         }
 
         public async Task<IEnumerable<Livro>> BuscarTodos()
