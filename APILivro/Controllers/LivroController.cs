@@ -31,9 +31,13 @@ namespace APILivro.Controllers
         [HttpPost]
         public async Task<ActionResult<Livro>> Adicionar([FromBody] Livro livro)
         {
-            await _livroRepository.Adicionar(livro);
+            if (ModelState.IsValid)
+            {
+                await _livroRepository.Adicionar(livro);
+                return CreatedAtAction(nameof(BuscarPorId), new { id = livro.Id }, livro);
+            }
 
-            return CreatedAtAction(nameof(BuscarPorId), new {id = livro.Id}, livro);
+            return NotFound();
         }
 
         [HttpDelete("{id}")]
